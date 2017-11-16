@@ -1,14 +1,8 @@
 
 from flask import Blueprint
-from flask_restless import APIManager
+from flask_restless import  APIManager
 from app import db
-
-
-incluir_produto = Blueprint('inserir',__name__)
-@incluir_produto.route('/produtos/inserir_produtos',methods=['GET','POST'])
-def inserir_produtos():
-    return 'inserir produtos'
-
+from app import app
 
 class Produto(db.Model):
     #fatores = ('A','B','C')
@@ -21,3 +15,8 @@ class Produto(db.Model):
     fator = db.Column(db.Enum('A','B','C', name='fator'))
 db.drop_all()
 db.create_all()
+
+manager = APIManager(app,flask_sqlalchemy_db=db)
+
+incluir_produto = manager.create_api_blueprint(Produto,methods=['GET','POST'],url_prefix='/v0',max_results_per_page=10,
+                                               results_per_page=10)
