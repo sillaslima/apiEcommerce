@@ -1,9 +1,9 @@
 
-from flask import Blueprint
-from flask_restless import  APIManager
+
+#from flask_restless import  APIManager
 from app import db
 from app import app
-
+from flask import Blueprint,request,json
 class Produto(db.Model):
     #fatores = ('A','B','C')
     #fatores_enum = Enum (*fatores, name='fator')
@@ -16,7 +16,15 @@ class Produto(db.Model):
 db.drop_all()
 db.create_all()
 
-manager = APIManager(app,flask_sqlalchemy_db=db)
+#manager = APIManager(app,flask_sqlalchemy_db=db)
+#incluir_produto = manager.create_api_blueprint(Produto,methods=['GET','POST'],url_prefix='/v0',max_results_per_page=10,
+#                                               results_per_page=10)
 
-incluir_produto = manager.create_api_blueprint(Produto,methods=['GET','POST'],url_prefix='/v0',max_results_per_page=10,
-                                               results_per_page=10)
+inc_produtos = Blueprint('produtos',__name__)
+@inc_produtos.route('/produtos', methods=['POST'])
+def incluir_produtos():
+    req = request.get_json(silent=True, force=True)
+    print(req)
+    print("Request:")
+    print(json.dumps(req, indent=4))
+    return 'test'

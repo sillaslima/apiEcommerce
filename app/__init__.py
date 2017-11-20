@@ -15,10 +15,11 @@ def index():
 @app.errorhandler(404)
 def not_found(error):
 	return '404'
-
-def registra_bluprint(app):
-    from app.produtos.cadastro_produtos import incluir_produto
-    app.register_blueprint(incluir_produto)
-registra_bluprint(app)
+from app.produtos.cadastro_produtos import inc_produtos
+app.register_blueprint(inc_produtos,url_prefix='/api')
+#def registra_bluprint(app):
+#from app.produtos.cadastro_produtos import incluir_produtos
+#app.register_blueprint(incluir_produtos)
+#registra_bluprint(app)
 
 
